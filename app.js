@@ -9,6 +9,7 @@ io.on('connection', (socket) => {
   socket.on('login', function (obj) {                
     console.log(obj);
     socket.emit('getMessage', {
+      type: 'text',
       sender: '系統',
       content: `你好${obj.username}，歡迎使用線上即時聊天功能~`,
       time: Date.now(),
@@ -16,11 +17,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', function (obj) {
-    io.emit('getMessage', {
-      sender: obj.sender,
-      content: obj.content,
-      time: obj.time,
-    });
+    io.emit('getMessage', obj);
   });
 
 });
