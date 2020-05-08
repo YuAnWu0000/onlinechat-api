@@ -22,8 +22,22 @@ module.exports.findAllMessages = async () => {
           messageStacks.push(messageDoc.data());
         });
       });
-      console.log('messageStacks---------------: ', messageStacks);
       return messageStacks;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+module.exports.deleteAllMessages = async () => {
+  try {
+    const batch = db.batch();
+    await db.collection('message').get().then(qs => {
+      qs.forEach(messageDoc => {
+        batch.delete(messageDoc.ref);
+      });
+      batch.commit();
+    });
+    return 'Deleted all documents in message';
   } catch (err) {
     console.log(err);
   }

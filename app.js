@@ -23,7 +23,6 @@ io.on('connection', (socket) => {
   console.log(`socket ${socket.id} listening`);
 
   socket.on('login', function (obj) {           
-    console.log(obj);
     socket.emit('getMessage', {
       type: 'text',
       sender: '系統',
@@ -33,9 +32,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', async function (obj) {
-    console.log(obj);
-    await pushMessage(obj)
     io.emit('getMessage', obj);
+    // 若要先等到firebase寫入完畢再群播速度太慢...使用者體驗不好
+    pushMessage(obj)
   });
 
 });
