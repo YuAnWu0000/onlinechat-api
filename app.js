@@ -22,13 +22,13 @@ fs.readdirSync('./routes').forEach(fileName => {
 io.on('connection', (socket) => {
   console.log(`socket ${socket.id} listening`);
 
-  socket.on('login', function (obj) {           
-    socket.emit('getMessage', {
+  socket.on('login', function (obj) {
+    io.emit('getMessage', {
       type: 'text',
       sender: '系統',
-      content: `你好${obj.username}，歡迎使用線上即時聊天功能~`,
+      content: `我們歡迎${obj.username}進入線上聊天室~`,
       time: Date.now(),
-    });
+    });           
   });
 
   socket.on('sendMessage', async function (obj) {
